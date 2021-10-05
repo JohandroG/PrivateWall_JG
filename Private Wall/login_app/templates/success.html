@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    
+    <nav style="display: flex; flex-direction: row; justify-content: space-between;align-items: center; padding: 0% 3%; border-bottom: 3px solid black; margin-bottom: 50px; ">
+        <h1 style="margin-right: 40%;font-size: 30px;">Coding Dojo Wall</h1>
+        <h1 style="font-size: 20px; border-bottom: 2px solid black;">😀 Welcome {{user.first_name}}!!!</h1>
+        <a class="btn btn-danger" href="/logout">LogOut</a>
+    </nav>
+
+    
+    <div style="display: flex; flex-direction: row; align-items: center; width: 100%; justify-content: space-around;">
+        <div style="width: 45%; background-color: grey; padding: 15px; border-radius: 10px; color: white;">
+
+            <h5 style="margin-bottom: 35px;" >New Messages</h5>
+            <div style="display: flex; flex-direction: column; justify-content: space-around;">
+                {%for data in msjData: %}
+                <form action="/dashboard/delete" method="POST">
+                    <div style="display: flex; flex-direction: row; width: 100%;">
+                        
+                        <div style="width: 80%; display: flex; flex-direction: column;">
+                            <p style="font-weight: 900;">Message from: {{data['sender_name']}} {{data['sender_lastname']}}</p>
+                            <p>{{data['message_info']}}</p>
+                        </div>
+                            <input type="hidden" name="message_id" value="{{data['message_id']}}"/>
+                        <button type="submit" class="btn btn-warning m-4">Delete</button>
+                    
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div style="width: 45%; background-color: grey; padding: 15px; border-radius: 10px; color: white;">
+
+            <h5>Send Messages here:</h5>
+            <h5 style="margin-bottom: 35px;">------------------------------------------</h5>
+            <div style="display: flex; flex-direction: column;">
+                
+                
+                    {% for user in options: %}
+                    <form action="/dashboard/send" method="POST">
+                        <div style="display: flex; flex-direction: row; justify-content: space-around; margin: 10px;">
+                            
+                            <p>{{user['first_name']}} {{user['last_name']}} </p>
+                            <input type="text" placeholder="Write to {{user['first_name']}} here" name="message"/>
+                            <input type="hidden" value="{{user['id']}}" name="user_id"/>
+                            <input type="hidden" value="{{user.id}}" name="sender_id"/>
+                            <button class="btn btn-warning" type="submit">Send</button>
+                        </div>
+                    </form>
+                    {% endfor %}
+                
+                
+            </div>
+        </div>
+
+    </div>
+
+
+
+    
+</body>
+</html>
